@@ -97,8 +97,8 @@ def tracker(items_list):
 #                  Item(vacancy='Тестовая вакансия 2', organization='Тестовая организация 2', date=datetime(day=17, month=4, year=2023).date())]
     if to_tracker:
         vacancies_to_tracker(driver, data['items_to_tracker'])
-        print('Вакансии какие можно выложены, а теперь разбирайся вот с этим:')
+        print('Вакансии какие можно выложены, а эти есть в базе, обрабатывай сам:\n')
         for item in data['items_not_to_tracker']:
             print(item.vacancy, item.organization, item.date)
     driver.quit()
-    print('Всё.')
+    print('Всё. Посмотри, нет ли среди загруженных вакансий отказов или приглашений. Пока что это придётся выставлять самостоятельно.')
