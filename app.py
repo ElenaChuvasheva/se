@@ -3,13 +3,20 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 
-from career_tracker import tracker
+from career_tracker import log_in_tracker, tracker, vacancy_to_tracker
 from hh import read_from_hh
+from utils import Item, date_to_internal, set_driver, tz
 
 load_dotenv()
 locale.setlocale(locale.LC_ALL, '')
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
+#    item = Item(vacancy='Тестовая вакансия', organization='Тестовая организация', date=date_to_internal('24 апреля 2023', tz=tz))
+#    driver = set_driver()
+#    log_in_tracker(driver)
+#    vacancy_to_tracker(driver, item)
+#    driver.quit()
+
     answer = 'n'
     while answer.lower() != 'y':
         print('Введи дату ДД.ММ.ГГГГ, например 01.04.2023')

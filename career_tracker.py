@@ -78,6 +78,7 @@ def vacancy_to_tracker(driver, item):
         week_number = item.date.day // 7 + 1
     else:
         week_number = item.date.day // 7 + 2
+    time.sleep(1)
     driver.find_element(By.XPATH, f'//div[@role="none presentation"]/div/div[1]/div/div/div[2]/div/div[{week_number}]/div[{week_day}]/button').click()
     driver.find_element(By.XPATH, f'//div[@role="none presentation"]/div/div[2]/button[./span[text()="Сохранить"]]').click()
     driver.find_element(By.XPATH, f'//div[@role="dialog"]/div[@variant="response"]//button[@type="submit"]').click()
