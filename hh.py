@@ -44,10 +44,13 @@ def parse_data(driver, stop_date):
         date_str = driver.find_element(
             By.XPATH, f'//tr[{i}]/td[5]/span/span').text
         date = date_to_internal(date_str, tz)
-        item=Item(vacancy=vacancy, organization=organization, date=date)
+        status = driver.find_element(
+            By.XPATH, f'//tr[{i}]/td[1]/label/span[@class="bloko-checkbox__text"]/span').text
+        rejected = True if status == 'Отказ' else False
+        item=Item(vacancy=vacancy, organization=organization, date=date, rejected=rejected)
         if date >= stop_date:
             items.append(item)
-#            print(i, item.vacancy, item.organization, item.date)
+#            print(i, item.vacancy, item.organization, item.date, item.rejected)
         i += 1
     return items
 

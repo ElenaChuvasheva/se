@@ -8,9 +8,14 @@ tz = timezone(timedelta(hours=3), name='Мск')
 
 @dataclass
 class Item:
-    vacancy: str
-    date: datetime.date
+    vacancy: str    
     organization: str
+    date: datetime.date
+    rejected: bool
+
+    def print(self):
+        print(self.vacancy, self.organization, self.date,
+              'Отказ' if self.rejected else '')
 
 months = {
     'января': 'Январь',
@@ -31,6 +36,8 @@ def date_to_internal(date_str, tz):
     if date_str == 'вчера':
         full_timestamp = datetime.now(tz=tz) - timedelta(days=1)
         return full_timestamp.date()
+    elif date_str == 'сегодня':
+        return datetime.now(tz=tz).date()
     split_date = date_str.split()
     split_date[1] = months[split_date[1]]
     changed_date = ' '.join(split_date).rstrip()

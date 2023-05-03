@@ -47,23 +47,18 @@ def answer_question(data):
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     print('Можем выложить в трекер следующие вакансии:\n')
     for item in data['items_to_tracker']:
-        print(item.vacancy, item.organization, item.date)
+        item.print()
     print('\n\nА с этими придётся разбираться самостоятельно:\n')
     for item in data['items_not_to_tracker']:
-        print(item.vacancy, item.organization, item.date)
+        item.print()
     print('\nВыкладываем? y/n')
     answer = input()
     if answer.lower() == 'y':
         return True
     return False
 
-def vacancy_to_tracker(driver, item):
-    driver.find_element(By.XPATH, '//button[./span/div/p[text()="Добавить новый отклик"]]').click()
-    driver.find_element(By.XPATH, '//div[./p[text()="Источник вакансии"]]/div/div/div[@role="button"]').click()
-    driver.find_element(By.XPATH, '//li[./span[text()="hh"]]').click()
-    driver.find_element(By.NAME, 'company_name').send_keys(item.organization)
-    driver.find_element(By.NAME, 'position').send_keys(item.vacancy)
-    driver.find_element(By.XPATH, '//div[./p[text()="Отклик на вакансию"]]/div/div/input').click()
+def set_date(driver, item, text):
+    driver.find_element(By.XPATH, f'//div[./p[text()="{text}"]]/div/div/input').click()
     current_month_year = driver.find_element(By.XPATH, '//div[@role="none presentation"]/div/div[1]/div/div/div[1]/div[1]/div/p').text
     counter = 0
     while months[current_month_year.split()[0]] != item.date.strftime('%B'):
@@ -81,8 +76,20 @@ def vacancy_to_tracker(driver, item):
     time.sleep(1)
     driver.find_element(By.XPATH, f'//div[@role="none presentation"]/div/div[1]/div/div/div[2]/div/div[{week_number}]/div[{week_day}]/button').click()
     driver.find_element(By.XPATH, f'//div[@role="none presentation"]/div/div[2]/button[./span[text()="Сохранить"]]').click()
+
+def vacancy_to_tracker(driver, item):
+    driver.find_element(By.XPATH, '//button[./span/div/p[text()="Добавить новый отклик"]]').click()
+    driver.find_element(By.XPATH, '//div[./p[text()="Источник вакансии"]]/div/div/div[@role="button"]').click()
+    driver.find_element(By.XPATH, '//li[./span[text()="hh"]]').click()
+    driver.find_element(By.NAME, 'company_name').send_keys(item.organization)
+    driver.find_element(By.NAME, 'position').send_keys(item.vacancy)
+
+    set_date(driver, item, 'Отклик на вакансию')
+    if item.rejected:
+        set_date(driver, item, 'Отказ')
+        
     driver.find_element(By.XPATH, f'//div[@role="dialog"]/div[@variant="response"]//button[@type="submit"]').click()
-    time.sleep(1)
+    time.sleep(1)    
 
 def vacancies_to_tracker(driver, items):
     for item in items:
@@ -102,4 +109,3 @@ def tracker(items_list):
         for item in data['items_not_to_tracker']:
             print(item.vacancy, item.organization, item.date)
     driver.quit()
-    print('Всё. Посмотри, нет ли среди загруженных вакансий отказов или приглашений. Пока что это придётся выставлять самостоятельно.')
