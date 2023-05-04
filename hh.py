@@ -50,6 +50,7 @@ def parse_data(driver, stop_date):
         item=Item(vacancy=vacancy, organization=organization, date=date, rejected=rejected)
         if date >= stop_date:
             items.append(item)
+            print(item)
 #            print(i, item.vacancy, item.organization, item.date, item.rejected)
         i += 1
     return items

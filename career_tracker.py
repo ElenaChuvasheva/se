@@ -47,10 +47,10 @@ def answer_question(data):
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     print('Можем выложить в трекер следующие вакансии:\n')
     for item in data['items_to_tracker']:
-        item.print()
-    print('\n\nА с этими придётся разбираться самостоятельно:\n')
+        print(item)
+    print('\nА с этими придётся разбираться самостоятельно:\n')
     for item in data['items_not_to_tracker']:
-        item.print()
+        print(item)
     print('\nВыкладываем? y/n')
     answer = input()
     if answer.lower() == 'y':

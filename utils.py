@@ -13,9 +13,8 @@ class Item:
     date: datetime.date
     rejected: bool
 
-    def print(self):
-        print(self.vacancy, self.organization, self.date,
-              'Отказ' if self.rejected else '')
+    def __str__(self):
+        return f'{self.vacancy} {self.organization} {self.date} {"Отказ" if self.rejected else ""}'
 
 months = {
     'января': 'Январь',
